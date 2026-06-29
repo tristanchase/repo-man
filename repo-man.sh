@@ -84,14 +84,14 @@ function __main_script__ {
 #<functions>
 
 function __create_repo__ {
-	echo "# "${_repo}"" >> README.md
+	echo "# "${_repo}"" > README.md
 	git init
 	git add --all
 	#git add README.md
 	git commit -m "First commit"
 	git remote add origin git@github.com:tristanchase/"${_repo}".git
 	git branch -M main
-	git push -u origin main:
+	git push -u origin main
 }
 
 function __local_cleanup__ {
@@ -101,7 +101,7 @@ function __local_cleanup__ {
 function __push_existing__ {
 	git remote add origin git@github.com:tristanchase/"${_repo}".git
 	git branch -M main
-	git push -u origin main:
+	git push -u origin main
 }
 
 #</functions>
