@@ -7,17 +7,19 @@ _script_name=$(basename -s .sh "$0")
 #<usage>
 function __show_help__ {
 	cat << EOF
-Usage: ${_script_name} [OPTIONS] [<arguments>]
+Usage: ${_script_name} [OPTIONS]
 
 Description: Manage your repos, man!
 
 Options:
-  -d, --debug	Enable debug mode
-  -h, --help	Display this help message
+  -d, --debug		Enable debug mode
+  -h, --help		Display this help message
+  -c, --create-repo	Create a new repo in the current directory
+  -e, --push-existing	Push an existing repo to github
 
 Examples:
-  ${_script_name} foo
-  ${_script_name} --debug bar
+  ${_script_name}
+  ${_script_name} --create-repo
 EOF
 }
 
@@ -67,6 +69,8 @@ EOF
 # Initialize variables
 #_temp="file.$$"
 _repo=$(basename $(pwd))
+_desc="$(grep -m 1 "Description" "${_repo}".sh)"
+
 # List of temp files to clean up on exit (put last)
 #_tempfiles=("${_temp}")
 
@@ -74,6 +78,7 @@ _repo=$(basename $(pwd))
 function __main_script__ {
 
 	printf "%b\n" "${_repo}"
+	printf "%b\n" "${_desc}"
 
 } #end __main_script__
 #</main>
@@ -87,15 +92,7 @@ function __create_repo__ {
 	echo "# "${_repo}"" > README.md
 	git init
 	git add --all
-	#git add README.md
-	git commit -m "First commit"
-	git remote add origin git@github.com:tristanchase/"${_repo}".git
-	git branch -M main
-	git push -u origin main
-}
-
-function __local_cleanup__ {
-	:
+	git commit -m "Initial commit"
 }
 
 function __push_existing__ {
